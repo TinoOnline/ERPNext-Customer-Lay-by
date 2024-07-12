@@ -12,8 +12,10 @@ class CustomCustomer(ERPNextCustomer):
                 frappe.throw(f'The ID number provide is not valid')
             if not self.mobile_no or (self.mobile_no and len(self.mobile_no) < 10):
                 frappe.throw('The primary phone number provided is not valid')
+            self.custom_layby_eligible = True
         elif self.custom_verification_type == "Passport":
             if (not self.custom_passport_number or not self.custom_passport_country):
                 frappe.throw("Passport Number and Passport Country are required if Identification Type is Passport")
             if not self.mobile_no or (self.mobile_no and len(self.mobile_no) < 10):
                 frappe.throw('The primary phone number provided is not valid')
+            self.custom_layby_eligible = True

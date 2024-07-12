@@ -14,14 +14,31 @@ class TestCustomCustomer(unittest.TestCase):
             "customer_type": "Individual",
             "custom_verification_type": "ID",
             "custom_id_number": "1234567890123",
-            "mobile_no": "0123456789"
+            "mobile_no": "0123456789",
+            "custom_layby_eligible": False
         }
-        
         
         if not frappe.db.exists("Customer", {"customer_name": "Test Customer"}):
             frappe.get_doc(self.customer_data).insert()
+ 
+    # Testing valid cases
+    
+    def test_valid_id(self):
+        custom_customer = frappe.get_doc(self.customer_data)
+        custom_customer.insert()
+        self.assertTrue(custom_customer.custom_layby_eligible)   
         
-                   
+    def test_valid_passport(self):
+        self.customer_data["custom_verification_type"] = "Passport"
+        self.customer_data["custom_passport_number"] = "A1234567"
+        self.customer_data["custom_passport_country"] = "Argentina"
+        self.customer_data["custom_layby_eligible"] = False
+        custom_customer = frappe.get_doc(self.customer_data)
+        custom_customer.insert()
+        self.assertTrue(custom_customer.custom_layby_eligible)    
+        
+    # Testing all the fault cases
+                       
     def test_invalid_id_length(self):
         self.customer_data["custom_id_number"] = "123456"
         custom_customer = frappe.get_doc(self.customer_data)
@@ -40,7 +57,6 @@ class TestCustomCustomer(unittest.TestCase):
         with self.assertRaises(frappe.exceptions.ValidationError):
             custom_customer.validate()
             
-
     def test_missing_passport_details(self):
         self.customer_data["custom_verification_type"] = "Passport"
         self.customer_data["custom_passport_number"] = None
