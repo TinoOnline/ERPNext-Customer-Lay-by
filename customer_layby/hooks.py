@@ -112,11 +112,11 @@ doctype_js = {
 
 # DocType Class
 # ---------------
-# Override standard doctype classes
+# Extend standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Customer": "customer_layby.customer_layby.custom_customer_layby.CustomCustomer"
+}
 
 # Document Events
 # ---------------

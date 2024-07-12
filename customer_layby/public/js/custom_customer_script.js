@@ -1,4 +1,5 @@
 frappe.ui.form.on('Customer', {
+    // the mulitple triggers allows the check to be carried out in realtime as fields are being edited
     refresh(frm) {
         check_lay_by_eligibility(frm)
     },
@@ -17,7 +18,6 @@ frappe.ui.form.on('Customer', {
 });
 
 function check_lay_by_eligibility(frm) {
-    console.log("We are working aren't we")
     frm.set_value('custom_layby_eligible', false);
     if (frm.doc.custom_verification_type === 'ID') {
         if (frm.doc.custom_id_number && frm.doc.custom_id_number.length === 13 && frm.doc.mobile_no && frm.doc.mobile_no.length > 8) {
